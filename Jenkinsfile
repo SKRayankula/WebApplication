@@ -39,6 +39,24 @@ pipeline {
                 }
             }
         }
+         stage('upload war to nexus'){
+	         steps{
+		             nexusArtifactUploader artifacts: [	
+			                 [
+				                     artifactId: '01-maven-web-app',
+				                     classifier: '',
+				                     file: 'target/01-maven-web-app.war',
+				                     type: war		
+			                 ]	
+		             ],
+		             credentialsId: 'nexus3',
+		             groupId: 'in.ashokit',
+		             nexusUrl: '',
+		             protocol: 'http',
+		             repository: 'ashokit-release'
+		             version: '1.0.0'
+	         }
+     }   
         
         stage('OWASP Dependency Check') {
             steps {
